@@ -21,8 +21,6 @@
 
 El sistema está compuesto por **8 microservicios independientes** que se comunican entre sí, todos protegidos mediante autenticación **JWT** y desplegables con **Docker Compose**.
 
-> **Equipo:** equipo-01 &nbsp;|&nbsp; **Sprint:** 2 semanas &nbsp;|&nbsp; **API externa:** API-Football v3
-
 ---
 
 ## 🧩 Microservicios
@@ -50,9 +48,3 @@ Todos             → validan JWT emitido por ms-auth
 ```
 
 ---
-
-<div align="center">
-
-**⚽ equipo-01 — SportPulse**
-
-</div>
