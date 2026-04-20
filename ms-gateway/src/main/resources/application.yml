@@ -7,11 +7,10 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - name: RequestRateLimiter
+        - name: CustomRateLimiter
           args:
-            key-resolver: "#{@ipKeyResolver}"
-            bucket4j-rate-limiter.capacity: 60
-            bucket4j-rate-limiter.refillTokens: 60
+            bucket4j-rate-limiter.capacity: 2
+            bucket4j-rate-limiter.refillTokens: 2
             bucket4j-rate-limiter.refillPeriod: 60s
             bucket4j-rate-limiter.requestedTokens: 1
 

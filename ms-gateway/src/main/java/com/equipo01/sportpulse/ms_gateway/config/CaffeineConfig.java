@@ -15,6 +15,6 @@ public class CaffeineConfig {
     @Bean
     AsyncProxyManager<String> caffeineProxyManager() {
         Caffeine<String, RemoteBucketState> builder = (Caffeine) Caffeine.newBuilder().maximumSize(100);
-        return new CaffeineProxyManager<>(builder, Duration.ofMinutes(1)).asAsync();
+        return new CaffeineProxyManager<>(builder, Duration.ofMinutes(2)).asAsync();
     }
 }
