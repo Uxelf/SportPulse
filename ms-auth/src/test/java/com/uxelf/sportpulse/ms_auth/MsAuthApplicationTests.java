@@ -1,4 +1,4 @@
-package com.equipo01.sportpulse.ms_auth;
+package com.uxelf.sportpulse.ms_auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,13 +1,13 @@
-package com.equipo01.sportpulse.ms_gateway;
+package com.uxelf.sportpulse.ms_auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsGatewayApplication {
+public class MsAuthApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsGatewayApplication.class, args);
+		SpringApplication.run(MsAuthApplication.class, args);
 	}
 
 }

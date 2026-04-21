@@ -1,4 +1,4 @@
-package com.equipo01.sportpulse.ms_gateway;
+package com.uxelf.sportpulse.ms_gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
