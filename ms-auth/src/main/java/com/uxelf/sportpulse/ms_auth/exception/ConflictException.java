@@ -1,7 +1,13 @@
 package com.uxelf.sportpulse.ms_auth.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ConflictException extends RuntimeException {
-    public ConflictException(String message) {
+    private final String errorCode;
+
+    public ConflictException(String errorCode, String message) {
         super(message);
+        this.errorCode = errorCode;
     }
 }

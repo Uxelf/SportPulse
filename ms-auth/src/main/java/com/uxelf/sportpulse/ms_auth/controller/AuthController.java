@@ -1,13 +1,22 @@
 package com.uxelf.sportpulse.ms_auth.controller;
 
+import com.uxelf.sportpulse.ms_auth.annotation.RegisterApiResponses;
 import com.uxelf.sportpulse.ms_auth.dto.RegisterRequest;
 import com.uxelf.sportpulse.ms_auth.dto.RegisterResponse;
 import com.uxelf.sportpulse.ms_auth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,12 +25,12 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @GetMapping
-    public ResponseEntity<String> test(){
-        return ResponseEntity.ok("Hola");
-    }
-
     @PostMapping("/register")
+    @Operation(
+            summary = "Register user",
+            description = "Creates a new user in the system"
+    )
+    @RegisterApiResponses
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request){
         RegisterResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

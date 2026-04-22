@@ -20,10 +20,10 @@ public class AuthService {
 
     public RegisterResponse register(RegisterRequest request){
         if (userRepository.existsByUsername(request.getUsername())){
-            throw new ConflictException("Username already taken");
+            throw new ConflictException("USER_ALREADY_EXISTS", "Username already in use");
         }
         if (userRepository.existsByEmail(request.getEmail())){
-            throw new ConflictException("Email already registered");
+            throw new ConflictException("EMAIL_ALREADY_EXISTS", "Email already in use");
         }
 
         User user = new User();
