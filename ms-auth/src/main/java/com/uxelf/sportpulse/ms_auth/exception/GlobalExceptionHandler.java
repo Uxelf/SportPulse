@@ -1,5 +1,6 @@
 package com.uxelf.sportpulse.ms_auth.exception;
 
+import com.uxelf.sportpulse.ms_auth.dto.validate.ValidateErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,8 +33,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
-        ErrorResponse body = new ErrorResponse("INVALID_CREDENTIALS", ex.getMessage(), Instant.now());
+    public ResponseEntity<ValidateErrorResponse> handleUnauthorized(UnauthorizedException ex) {
+        ValidateErrorResponse body = new ValidateErrorResponse(false, ex.getErrorCode(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 

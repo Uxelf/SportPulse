@@ -1,6 +1,6 @@
 package com.uxelf.sportpulse.ms_auth.annotation;
 
-import com.uxelf.sportpulse.ms_auth.dto.LoginResponse;
+import com.uxelf.sportpulse.ms_auth.dto.login.LoginResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;

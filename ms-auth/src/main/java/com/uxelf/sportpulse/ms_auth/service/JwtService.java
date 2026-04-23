@@ -1,7 +1,9 @@
 package com.uxelf.sportpulse.ms_auth.service;
 
 import com.uxelf.sportpulse.ms_auth.entity.User;
+import com.uxelf.sportpulse.ms_auth.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -44,12 +46,13 @@ public class JwtService {
                 .getPayload();
     }
 
-    public boolean isTokenValid(String token) {
+    public void validateToken(String token) {
         try {
             extractClaims(token);
-            return true;
+        } catch (ExpiredJwtException e) {
+            throw new UnauthorizedException("TOKEN_EXPIRED", "Expired token");
         } catch (JwtException e) {
-            return false;
+            throw new UnauthorizedException("TOKEN_INVALID", "Invalid token");
         }
     }
 }

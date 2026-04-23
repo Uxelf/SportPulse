@@ -1,4 +1,4 @@
-package com.uxelf.sportpulse.ms_auth.dto;
+package com.uxelf.sportpulse.ms_auth.dto.register;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

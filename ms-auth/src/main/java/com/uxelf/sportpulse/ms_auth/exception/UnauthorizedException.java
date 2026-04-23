@@ -1,7 +1,13 @@
 package com.uxelf.sportpulse.ms_auth.exception;
 
+import lombok.Getter;
+
+@Getter
 public class UnauthorizedException extends RuntimeException {
-    public UnauthorizedException(String message) {
+    private final String errorCode;
+
+    public UnauthorizedException(String errorCode, String message) {
         super(message);
+        this.errorCode = errorCode;
     }
 }

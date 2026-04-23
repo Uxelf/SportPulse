@@ -2,24 +2,21 @@ package com.uxelf.sportpulse.ms_auth.controller;
 
 import com.uxelf.sportpulse.ms_auth.annotation.LoginApiResponses;
 import com.uxelf.sportpulse.ms_auth.annotation.RegisterApiResponses;
-import com.uxelf.sportpulse.ms_auth.dto.LoginRequest;
-import com.uxelf.sportpulse.ms_auth.dto.LoginResponse;
-import com.uxelf.sportpulse.ms_auth.dto.RegisterRequest;
-import com.uxelf.sportpulse.ms_auth.dto.RegisterResponse;
+import com.uxelf.sportpulse.ms_auth.annotation.ValidateApiResponses;
+import com.uxelf.sportpulse.ms_auth.dto.login.LoginRequest;
+import com.uxelf.sportpulse.ms_auth.dto.login.LoginResponse;
+import com.uxelf.sportpulse.ms_auth.dto.register.RegisterRequest;
+import com.uxelf.sportpulse.ms_auth.dto.register.RegisterResponse;
+import com.uxelf.sportpulse.ms_auth.dto.validate.ValidateResponse;
 import com.uxelf.sportpulse.ms_auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,5 +41,15 @@ public class AuthController {
     @LoginApiResponses
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/validate")
+    @Operation(summary = "Validate token",
+            description = "Validates a JWT and returns the user data. Internal use for other micro services.",
+            security = @SecurityRequirement(name = "Bearer Auth"))
+    @ValidateApiResponses
+    public ResponseEntity<ValidateResponse> validate(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return ResponseEntity.ok(authService.validate(authHeader));
     }
 }

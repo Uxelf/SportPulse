@@ -1,4 +1,4 @@
-package com.uxelf.sportpulse.ms_auth.dto;
+package com.uxelf.sportpulse.ms_auth.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
