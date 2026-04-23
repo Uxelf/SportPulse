@@ -1,6 +1,9 @@
 package com.uxelf.sportpulse.ms_auth.controller;
 
+import com.uxelf.sportpulse.ms_auth.annotation.LoginApiResponses;
 import com.uxelf.sportpulse.ms_auth.annotation.RegisterApiResponses;
+import com.uxelf.sportpulse.ms_auth.dto.LoginRequest;
+import com.uxelf.sportpulse.ms_auth.dto.LoginResponse;
 import com.uxelf.sportpulse.ms_auth.dto.RegisterRequest;
 import com.uxelf.sportpulse.ms_auth.dto.RegisterResponse;
 import com.uxelf.sportpulse.ms_auth.service.AuthService;
@@ -34,5 +37,12 @@ public class AuthController {
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request){
         RegisterResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login", description = "User authentication, returns the JWT")
+    @LoginApiResponses
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }
