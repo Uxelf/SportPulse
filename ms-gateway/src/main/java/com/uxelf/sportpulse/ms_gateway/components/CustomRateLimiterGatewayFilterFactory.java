@@ -1,4 +1,4 @@
-package com.equipo01.sportpulse.ms_gateway.components;
+package com.uxelf.sportpulse.ms_gateway.components;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

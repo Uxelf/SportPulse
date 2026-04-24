@@ -1,4 +1,4 @@
-package com.equipo01.sportpulse.ms_gateway.config;
+package com.uxelf.sportpulse.ms_gateway.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.bucket4j.caffeine.CaffeineProxyManager;

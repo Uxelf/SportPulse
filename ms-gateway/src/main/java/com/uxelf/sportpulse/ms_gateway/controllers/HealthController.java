@@ -1,4 +1,4 @@
-package com.equipo01.sportpulse.ms_gateway.controllers;
+package com.uxelf.sportpulse.ms_gateway.controllers;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.web.bind.annotation.GetMapping;
