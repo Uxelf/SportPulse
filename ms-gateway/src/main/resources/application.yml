@@ -9,48 +9,43 @@ spring:
       default-filters:
         - name: CustomRateLimiter
           args:
-            bucket4j-rate-limiter.capacity: 2
-            bucket4j-rate-limiter.refillTokens: 2
+            bucket4j-rate-limiter.capacity: 10
+            bucket4j-rate-limiter.refillTokens: 10
             bucket4j-rate-limiter.refillPeriod: 60s
             bucket4j-rate-limiter.requestedTokens: 1
 
       routes:
         - id: auth
-          uri: http://localhost:8081
+          uri: ${AUTH_SERVICE_URL}
           predicates:
             - Path=/api/auth/**
 
         - id: leagues
-          uri: http://localhost:8082
+          uri: ${LEAGUES_SERVICE_URL}
           predicates:
             - Path=/api/leagues/**
 
         - id: teams
-          uri: http://localhost:8083
+          uri: ${TEAMS_SERVICE_URL}
           predicates:
             - Path=/api/teams/**
 
         - id: fixtures
-          uri: http://localhost:8085
+          uri: ${FIXTURES_SERVICE_URL}
           predicates:
             - Path=/api/fixtures/**
 
         - id: standings
-          uri: http://localhost:8086
+          uri: ${STANDINGS_SERVICE_URL}
           predicates:
             - Path=/api/standings/**
 
         - id: notifications
-          uri: http://localhost:8088
+          uri: ${NOTIFICATIONS_SERVICE_URL}
           predicates:
             - Path=/api/notifications/**
 
         - id: dashboard
-          uri: http://localhost:8089
+          uri: ${DASHBOARD_SERVICE_URL}
           predicates:
             - Path=/api/dashboard/**
-
-        - id: test
-          uri: https://jsonplaceholder.typicode.com
-          predicates:
-            - Path=/todos/**

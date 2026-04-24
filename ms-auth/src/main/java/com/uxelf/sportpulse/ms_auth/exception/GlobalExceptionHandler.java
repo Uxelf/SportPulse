@@ -40,6 +40,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralExceptions(Exception ex) {
-        return new ResponseEntity<>("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unexpected server error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
