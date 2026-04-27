@@ -37,7 +37,9 @@ services:
       JWT_EXPIRATION: 3600000
   
   ms-leagues:
-    build: ./ms-leagues
+    build:
+      context: .
+      dockerfile: ms-leagues/Dockerfile
     ports:
       - "8082:8082"
     environment:
