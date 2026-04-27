@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   ms-gateway:
-    build: ./ms-gateway
+    build:
+        context: .
+        dockerfile: ms-gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -24,7 +26,9 @@ services:
       - "5433:5432"
 
   ms-auth:
-    build: ./ms-auth
+    build:
+        context: .
+        dockerfile: ms-auth/Dockerfile
     ports:
       - "8081:8081"
     depends_on:

@@ -1,7 +1,7 @@
 package com.uxelf.sportpulse.ms_auth.service;
 
 import com.uxelf.sportpulse.ms_auth.entity.User;
-import com.uxelf.sportpulse.ms_auth.exception.UnauthorizedException;
+import com.uxelf.sportpulse.ms_auth.exception.UnauthorizedAuthException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -50,9 +50,9 @@ public class JwtService {
         try {
             extractClaims(token);
         } catch (ExpiredJwtException e) {
-            throw new UnauthorizedException("TOKEN_EXPIRED", "Expired token");
+            throw new UnauthorizedAuthException("TOKEN_EXPIRED", "Expired token");
         } catch (JwtException e) {
-            throw new UnauthorizedException("TOKEN_INVALID", "Invalid token");
+            throw new UnauthorizedAuthException("TOKEN_INVALID", "Invalid token");
         }
     }
 }

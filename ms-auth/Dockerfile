@@ -1,13 +1,18 @@
 # Build Stage
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml ./
-RUN mvn -q -e dependency:go-offline
-COPY src ./src
-RUN mvn -q package -DskipTests
+
+COPY ms-shared/pom.xml ./ms-shared/pom.xml
+COPY ms-shared/src ./ms-shared/src
+RUN mvn -q install -f ms-shared/pom.xml -DskipTests
+
+COPY ms-auth/pom.xml ./ms-auth/pom.xml
+RUN mvn -q -e dependency:go-offline -f ms-auth/pom.xml
+COPY ms-auth/src ./ms-auth/src
+RUN mvn -q package -DskipTests -f ms-auth/pom.xml
 
 #Run stage
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY --from=build /app/ms-auth/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

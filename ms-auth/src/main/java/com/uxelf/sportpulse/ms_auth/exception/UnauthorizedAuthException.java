@@ -3,10 +3,10 @@ package com.uxelf.sportpulse.ms_auth.exception;
 import lombok.Getter;
 
 @Getter
-public class ConflictException extends RuntimeException {
+public class UnauthorizedAuthException extends RuntimeException {
     private final String errorCode;
 
-    public ConflictException(String errorCode, String message) {
+    public UnauthorizedAuthException(String errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
     }

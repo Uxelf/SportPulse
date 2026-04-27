@@ -7,9 +7,10 @@ import com.uxelf.sportpulse.ms_auth.dto.register.RegisterResponse;
 import com.uxelf.sportpulse.ms_auth.dto.validate.ValidateResponse;
 import com.uxelf.sportpulse.ms_auth.entity.User;
 import com.uxelf.sportpulse.ms_auth.enums.Role;
-import com.uxelf.sportpulse.ms_auth.exception.ConflictException;
-import com.uxelf.sportpulse.ms_auth.exception.UnauthorizedException;
+import com.uxelf.sportpulse.ms_auth.exception.UnauthorizedAuthException;
 import com.uxelf.sportpulse.ms_auth.repository.UserRepository;
+import com.uxelf.sportpulse.shared.exception.ConflictException;
+import com.uxelf.sportpulse.shared.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,7 +71,7 @@ public class AuthService {
 
     public ValidateResponse validate(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new UnauthorizedException("TOKEN_MISSING", "Token not provided");
+            throw new UnauthorizedAuthException("TOKEN_MISSING", "Token not provided");
         }
 
         String token = authHeader.substring(7);
