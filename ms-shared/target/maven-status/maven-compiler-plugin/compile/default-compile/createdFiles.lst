@@ -1,5 +1,0 @@
-com\uxelf\sportpulse\shared\exception\ConflictException.class
-com\uxelf\sportpulse\shared\exception\GlobalExceptionHandler.class
-com\uxelf\sportpulse\shared\exception\NotFoundException.class
-com\uxelf\sportpulse\shared\exception\UnauthorizedException.class
-com\uxelf\sportpulse\shared\exception\ErrorResponse.class

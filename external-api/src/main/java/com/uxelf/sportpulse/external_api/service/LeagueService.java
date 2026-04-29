@@ -1,8 +1,8 @@
 package com.uxelf.sportpulse.external_api.service;
 
-import com.uxelf.sportpulse.external_api.dto.RapidApiLeagueResponse;
 import org.springframework.stereotype.Service;
 
+import com.uxelf.sportpulse.external_api.dto.RapidApiLeagueResponse;
 import java.util.ArrayList;
 import java.util.List;
 
