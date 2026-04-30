@@ -5,19 +5,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TeamResponse {
+public class SpecificTeamResponse {
     private Integer id;
     private String name;
     private String country;
     private String logo;
     private Integer founded;
-    private StadiumInfo stadium;
+    private boolean national;
+    private SpecificStadiumInfo stadium;
 
     @Getter
     @Setter
-    public static class StadiumInfo{
+    public static class SpecificStadiumInfo{
         private String name;
+        private String address;
         private String city;
         private Integer capacity;
+        private String surface;
     }
 }
