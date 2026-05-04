@@ -1,7 +1,9 @@
 package com.uxelf.sportpulse.external_api.controller;
 
+import com.uxelf.sportpulse.external_api.dto.RapidApiFixtureResponse;
 import com.uxelf.sportpulse.external_api.dto.RapidApiLeagueResponse;
 import com.uxelf.sportpulse.external_api.dto.RapidApiTeamResponse;
+import com.uxelf.sportpulse.external_api.service.FixtureService;
 import com.uxelf.sportpulse.external_api.service.LeagueService;
 import com.uxelf.sportpulse.external_api.service.TeamService;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ public class InfoController {
 
     LeagueService leagueService;
     TeamService teamService;
+    FixtureService fixtureService;
 
     @GetMapping("/leagues")
     ResponseEntity<RapidApiLeagueResponse> getLeagues(){
@@ -26,5 +29,10 @@ public class InfoController {
     @GetMapping("/teams")
     ResponseEntity<RapidApiTeamResponse> getTeams(){
         return ResponseEntity.ok(teamService.getTeams());
+    }
+
+    @GetMapping("/fixtures")
+    ResponseEntity<RapidApiFixtureResponse> getFixtures(){
+        return ResponseEntity.ok(fixtureService.getFixtures());
     }
 }
