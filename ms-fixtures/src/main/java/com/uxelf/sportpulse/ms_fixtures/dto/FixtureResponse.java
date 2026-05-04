@@ -31,7 +31,7 @@ public class FixtureResponse {
     @Setter
     public static class LeagueInfo{
         private Integer id;
-        private Integer name;
+        private String name;
         private String round;
     }
 

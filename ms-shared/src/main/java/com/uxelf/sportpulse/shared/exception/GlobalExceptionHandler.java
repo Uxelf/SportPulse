@@ -1,6 +1,9 @@
 package com.uxelf.sportpulse.shared.exception;
 
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@ConditionalOnClass(name = "jakarta.servlet.ServletException")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConflictException.class)

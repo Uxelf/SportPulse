@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient ( name = "external-api", url = "${external-api.url}", configuration = FeignErrorDecoder.class)
 public interface ExternalApiClient {
     @GetMapping("/fixtures")
-    RapidApiFixtureResponse getTeams();
+    RapidApiFixtureResponse getFixtures();
 }
