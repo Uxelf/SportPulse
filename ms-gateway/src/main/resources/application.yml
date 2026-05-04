@@ -9,8 +9,8 @@ spring:
       default-filters:
         - name: CustomRateLimiter
           args:
-            bucket4j-rate-limiter.capacity: 10
-            bucket4j-rate-limiter.refillTokens: 10
+            bucket4j-rate-limiter.capacity: 30
+            bucket4j-rate-limiter.refillTokens: 30
             bucket4j-rate-limiter.refillPeriod: 60s
             bucket4j-rate-limiter.requestedTokens: 1
 

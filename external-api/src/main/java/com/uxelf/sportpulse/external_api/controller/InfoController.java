@@ -1,7 +1,9 @@
 package com.uxelf.sportpulse.external_api.controller;
 
 import com.uxelf.sportpulse.external_api.dto.RapidApiLeagueResponse;
+import com.uxelf.sportpulse.external_api.dto.RapidApiTeamResponse;
 import com.uxelf.sportpulse.external_api.service.LeagueService;
+import com.uxelf.sportpulse.external_api.service.TeamService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,15 @@ import java.util.List;
 public class InfoController {
 
     LeagueService leagueService;
+    TeamService teamService;
 
     @GetMapping("/leagues")
     ResponseEntity<RapidApiLeagueResponse> getLeagues(){
         return ResponseEntity.ok(leagueService.getLeagues());
+    }
+
+    @GetMapping("/teams")
+    ResponseEntity<RapidApiTeamResponse> getTeams(){
+        return ResponseEntity.ok(teamService.getTeams());
     }
 }
