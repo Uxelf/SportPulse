@@ -2,20 +2,20 @@ package com.uxelf.sportpulse.ms_fixtures.service;
 
 import com.uxelf.sportpulse.ms_fixtures.client.AuthClient;
 import com.uxelf.sportpulse.ms_fixtures.client.ExternalApiClient;
+import com.uxelf.sportpulse.ms_fixtures.dto.FixtureEventsResponse;
 import com.uxelf.sportpulse.ms_fixtures.dto.FixtureResponse;
 import com.uxelf.sportpulse.ms_fixtures.dto.LiveFixtureResponse;
 import com.uxelf.sportpulse.ms_fixtures.dto.RapidApiFixtureResponse;
+import com.uxelf.sportpulse.ms_fixtures.dto.builder.RapidApiToFixture;
 import com.uxelf.sportpulse.ms_fixtures.enums.FixtureStatus;
-import com.uxelf.sportpulse.shared.exception.ConflictException;
 import com.uxelf.sportpulse.shared.exception.InvalidParamException;
+import com.uxelf.sportpulse.shared.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +24,7 @@ public class FixtureService {
 
     private final AuthClient authClient;
     private final ExternalApiClient externalApiClient;
+    private final RapidApiToFixture rapidApiToFixture = new RapidApiToFixture();
 
     public List<FixtureResponse> getFixtures(
             String authHeader,
@@ -35,58 +36,21 @@ public class FixtureService {
         authClient.validate(authHeader);
         validateDateFormat(date);
 
+        String effectiveDate = date != null ? date : LocalDate.now().toString();
+
         return externalApiClient.getFixtures().getResponse().stream()
                 .filter(wrapper -> league == null
                         || wrapper.getLeague().getId().equals(league))
                 .filter(wrapper -> team == null
                         || wrapper.getTeams().getHome().getId().equals(team)
                         || wrapper.getTeams().getAway().getId().equals(team))
-                .filter(wrapper -> date == null
-                        || wrapper.getFixture().getDate().startsWith(date))
+                .filter(wrapper ->
+                        wrapper.getFixture().getDate().startsWith(effectiveDate))
                 .filter(wrapper -> status == null
                         || wrapper.getFixture().getStatus().getShortStatus()
                         .equals(status.toString()))
-                .map(this::toFixtureResponse)
+                .map(rapidApiToFixture::toFixtureResponse)
                 .toList();
-    }
-
-    private FixtureResponse toFixtureResponse(RapidApiFixtureResponse.ApiFixtureWrapper wrapper) {
-        FixtureResponse response = new FixtureResponse();
-
-        response.setId(wrapper.getFixture().getId());
-        response.setDate(Instant.parse(wrapper.getFixture().getDate()));
-
-        FixtureResponse.StatusInfo status = new FixtureResponse.StatusInfo();
-        status.setShortStatus(wrapper.getFixture().getStatus().getShortStatus());
-        status.setLongStatus(wrapper.getFixture().getStatus().getLongStatus());
-        response.setStatus(status);
-
-        FixtureResponse.LeagueInfo league = new FixtureResponse.LeagueInfo();
-        league.setId(wrapper.getLeague().getId());
-        league.setName(wrapper.getLeague().getName());
-        league.setRound(wrapper.getLeague().getRound());
-        response.setLeague(league);
-
-        FixtureResponse.TeamInfo home = new FixtureResponse.TeamInfo();
-        home.setId(wrapper.getTeams().getHome().getId());
-        home.setName(wrapper.getTeams().getHome().getName());
-        home.setLogo(wrapper.getTeams().getHome().getLogo());
-        home.setGoals(wrapper.getTeams().getHome().getGoals());
-        response.setHomeTeam(home);
-
-        FixtureResponse.TeamInfo away = new FixtureResponse.TeamInfo();
-        away.setId(wrapper.getTeams().getAway().getId());
-        away.setName(wrapper.getTeams().getAway().getName());
-        away.setLogo(wrapper.getTeams().getAway().getLogo());
-        away.setGoals(wrapper.getTeams().getAway().getGoals());
-        response.setAwayTeam(away);
-
-        FixtureResponse.VenueInfo venue = new FixtureResponse.VenueInfo();
-        venue.setName(wrapper.getFixture().getVenue().getName());
-        venue.setCity(wrapper.getFixture().getVenue().getCity());
-        response.setVenue(venue);
-
-        return response;
     }
 
     private void validateDateFormat(String date) {
@@ -107,38 +71,23 @@ public class FixtureService {
                     String shortStatus = wrapper.getFixture().getStatus().getShortStatus();
                     return !shortStatus.equals("NS") && !shortStatus.equals("FT");
                 })
-                .map(this::toLiveFixtureResponse)
+                .map(rapidApiToFixture::toLiveFixtureResponse)
                 .toList();
     }
 
-    private LiveFixtureResponse toLiveFixtureResponse(RapidApiFixtureResponse.ApiFixtureWrapper wrapper) {
-        LiveFixtureResponse response = new LiveFixtureResponse();
+    public List<FixtureEventsResponse> getFixtureEvents(String authHeader, Integer fixtureId) {
+        authClient.validate(authHeader);
 
-        response.setId(wrapper.getFixture().getId());
-        response.setElapsed(wrapper.getFixture().getStatus().getElapsed());
+        RapidApiFixtureResponse.ApiFixtureWrapper wrapper = externalApiClient.getFixtures()
+                .getResponse().stream()
+                .filter(f -> f.getFixture().getId().equals(fixtureId))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("FIXTURE_NOT_FOUND",
+                        "No existe un partido con el ID proporcionado"));
 
-        FixtureResponse.StatusInfo status = new FixtureResponse.StatusInfo();
-        status.setShortStatus(wrapper.getFixture().getStatus().getShortStatus());
-        status.setLongStatus(wrapper.getFixture().getStatus().getLongStatus());
-        response.setStatus(status);
-
-        LiveFixtureResponse.LiveLeagueInfo league = new LiveFixtureResponse.LiveLeagueInfo();
-        league.setId(wrapper.getLeague().getId());
-        league.setName(wrapper.getLeague().getName());
-        response.setLeague(league);
-
-        LiveFixtureResponse.LiveTeamInfo home = new LiveFixtureResponse.LiveTeamInfo();
-        home.setId(wrapper.getTeams().getHome().getId());
-        home.setName(wrapper.getTeams().getHome().getName());
-        home.setGoals(wrapper.getTeams().getHome().getGoals());
-        response.setHomeTeam(home);
-
-        LiveFixtureResponse.LiveTeamInfo away = new LiveFixtureResponse.LiveTeamInfo();
-        away.setId(wrapper.getTeams().getAway().getId());
-        away.setName(wrapper.getTeams().getAway().getName());
-        away.setGoals(wrapper.getTeams().getAway().getGoals());
-        response.setAwayTeam(away);
-
-        return response;
+        return wrapper.getEvents().stream()
+                .map(rapidApiToFixture::toFixtureEventsResponse)
+                .toList();
     }
+
 }

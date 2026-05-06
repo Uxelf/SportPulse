@@ -11,6 +11,7 @@ public class FixtureEventsResponse {
     private String detail;
     private EventsTeamInfo team;
     private EventsPlayerInfo player;
+    private EventsAssistInfo assist;
 
 
     @Getter
