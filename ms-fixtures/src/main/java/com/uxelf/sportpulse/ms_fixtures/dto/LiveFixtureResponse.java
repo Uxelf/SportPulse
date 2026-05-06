@@ -10,6 +10,8 @@ public class LiveFixtureResponse {
     private Integer elapsed;
     private FixtureResponse.StatusInfo status;
     private LiveLeagueInfo league;
+    private LiveTeamInfo homeTeam;
+    private LiveTeamInfo awayTeam;
 
 
 

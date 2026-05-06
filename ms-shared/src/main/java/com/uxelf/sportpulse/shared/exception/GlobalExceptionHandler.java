@@ -75,6 +75,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
+    @ExceptionHandler(InvalidParamException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidParam(InvalidParamException ex) {
+        ErrorResponse body = new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralExceptions(Exception ex) {
         return new ResponseEntity<>("Unexpected server error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

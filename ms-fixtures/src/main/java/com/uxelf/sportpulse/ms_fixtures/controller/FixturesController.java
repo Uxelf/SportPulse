@@ -1,6 +1,7 @@
 package com.uxelf.sportpulse.ms_fixtures.controller;
 
 import com.uxelf.sportpulse.ms_fixtures.dto.FixtureResponse;
+import com.uxelf.sportpulse.ms_fixtures.dto.LiveFixtureResponse;
 import com.uxelf.sportpulse.ms_fixtures.enums.FixtureStatus;
 import com.uxelf.sportpulse.ms_fixtures.service.FixtureService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class FixturesController {
 
     private final FixtureService fixtureService;
     @GetMapping("/")
-    public ResponseEntity<List<FixtureResponse>> test(
+    public ResponseEntity<List<FixtureResponse>> getFixtures(
             HttpServletRequest request,
             @RequestParam(required = false) Integer league,
             @RequestParam(required = false) Integer team,
@@ -36,5 +37,11 @@ public class FixturesController {
                 team,
                 date,
                 status));
+    }
+
+    @GetMapping("/live")
+    public ResponseEntity<List<LiveFixtureResponse>> getLiveFixtures(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return ResponseEntity.ok(fixtureService.getLiveFixtures(authHeader));
     }
 }
