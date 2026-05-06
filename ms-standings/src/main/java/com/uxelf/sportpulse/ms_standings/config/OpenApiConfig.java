@@ -1,4 +1,4 @@
-package com.uxelf.sportpulse.ms_fixtures.config;
+package com.uxelf.sportpulse.ms_standings.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -15,8 +15,8 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("SportPulse - ms-fixtures")
-                        .description("Football fixtures services")
+                        .title("SportPulse - ms-standings")
+                        .description("Football standings services")
                         .version("1.0.0"))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Auth"))
                 .components(new Components()

@@ -51,7 +51,9 @@ services:
       JWT_SECRET: sportpulse-secret-key-2025-Secret
 
   ms-teams:
-    build: ./ms-teams
+    build:
+        context: .
+        dockerfile: ms-teams/Dockerfile
     ports:
       - "8083:8083"
     environment:
@@ -59,7 +61,9 @@ services:
       JWT_SECRET: sportpulse-secret-key-2025-Secret
   
   ms-fixtures:
-    build: ./ms-fixtures
+    build:
+        context: .
+        dockerfile: ms-fixtures/Dockerfile
     ports:
       - "8085:8085"
     environment:
@@ -68,7 +72,9 @@ services:
       TEAMS_SERVICE_URL: http://ms-teams:8083
 
   ms-standings:
-    build: ./ms-standings
+    build:
+        context: .
+        dockerfile: ms-standings/Dockerfile
     ports:
       - "8086:8086"
     environment:
@@ -86,7 +92,9 @@ services:
       - "5434:5432"
 
   ms-notifications:
-    build: ./ms-notifications
+    build:
+        context: .
+        dockerfile: ms-notifications/Dockerfile
     ports:
       - "8088:8088"
     depends_on:
@@ -100,7 +108,9 @@ services:
       FIXTURES_SERVICE_URL: http://ms-fixtures:8085
       
   ms-dashboard:
-    build: ./ms-dashboard
+    build:
+        context: .
+        dockerfile: ms-dashboard/Dockerfile
     ports:
       - "8089:8089"
     depends_on:
