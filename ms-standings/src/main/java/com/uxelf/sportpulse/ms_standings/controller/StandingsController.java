@@ -1,5 +1,6 @@
 package com.uxelf.sportpulse.ms_standings.controller;
 
+import com.uxelf.sportpulse.ms_standings.annotation.GetStandingsApiResponses;
 import com.uxelf.sportpulse.ms_standings.dto.StandingsResponse;
 import com.uxelf.sportpulse.ms_standings.dto.TeamStandingResponse;
 import com.uxelf.sportpulse.ms_standings.service.StandingsService;
@@ -24,6 +25,7 @@ public class StandingsController {
             summary = "Get standings",
             description = "Returns full standings for a league and season.",
             security = @SecurityRequirement(name = "Bearer Auth"))
+    @GetStandingsApiResponses
     public ResponseEntity<StandingsResponse> getStandings(
             HttpServletRequest request,
             @RequestParam Integer league,
