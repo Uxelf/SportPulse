@@ -106,6 +106,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin123
       JWT_SECRET: sportpulse-secret-key-2025-Secret
       FIXTURES_SERVICE_URL: http://ms-fixtures:8085
+      INTERNAL_JWT_TOKEN: ${INTERNAL_JWT_TOKEN}
       
   ms-dashboard:
     build:
