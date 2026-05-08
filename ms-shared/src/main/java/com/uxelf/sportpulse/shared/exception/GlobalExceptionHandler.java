@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -78,6 +79,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidParamException.class)
     public ResponseEntity<ErrorResponse> handleInvalidParam(InvalidParamException ex) {
         ErrorResponse body = new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEnum(HttpMessageNotReadableException ex) {
+        ErrorResponse body = new ErrorResponse(
+                "INVALID_VALUE",
+                "Invalid value provided. Check enum fields and their accepted values.",
+                Instant.now()
+        );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
