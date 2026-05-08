@@ -8,4 +8,6 @@ import lombok.Getter;
 public class FixtureState {
     private Integer fixtureId;
     private Integer lastElapsed;
+    private Integer homeTeamId;
+    private Integer awayTeamId;
 }

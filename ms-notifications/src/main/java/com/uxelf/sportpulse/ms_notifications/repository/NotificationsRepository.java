@@ -27,5 +27,8 @@ public interface NotificationsRepository extends JpaRepository<Subscription, Lon
     List<Subscription> findByFixtureIdAndStatusAndEventsContaining(
             Integer fixtureId, SubscriptionStatus status, NotificationEvent event);
 
+    List<Subscription> findByTeamIdInAndStatusAndEventsContaining(
+            List<Integer> teamIds, SubscriptionStatus status, NotificationEvent event);
+
     List<Subscription> findByUserIdAndStatus(UUID userId, SubscriptionStatus status);
 }

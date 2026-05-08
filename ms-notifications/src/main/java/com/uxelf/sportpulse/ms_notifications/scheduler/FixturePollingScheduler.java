@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 @AllArgsConstructor
@@ -39,8 +40,9 @@ public class FixturePollingScheduler {
             stateStore.getTrackedFixtures().forEach(fixtureId -> {
                 boolean stillLive = liveFixtures.stream()
                         .anyMatch(f -> f.getId().equals(fixtureId));
-                if (!stillLive){
-                    notifyEvent(fixtureId, NotificationEvent.MATCH_END);
+                if (!stillLive) {
+                    FixtureState state = stateStore.get(fixtureId);
+                    notifyEvent(fixtureId, state.getHomeTeamId(), state.getAwayTeamId(), NotificationEvent.MATCH_END);
                     stateStore.remove(fixtureId);
                 }
             });
@@ -51,14 +53,15 @@ public class FixturePollingScheduler {
 
     private void processFixture(LiveFixtureResponse fixture, String authHeader) {
         Integer fixtureId = fixture.getId();
+        Integer homeTeamId = fixture.getHomeTeam().getId();
+        Integer awayTeamId = fixture.getAwayTeam().getId();
         FixtureState previousState = stateStore.get(fixtureId);
 
         if (previousState == null) {
-            notifyEvent(fixtureId, NotificationEvent.MATCH_START);
-            stateStore.update(fixtureId, new FixtureState(fixtureId, 0));
+            notifyEvent(fixtureId, homeTeamId, awayTeamId, NotificationEvent.MATCH_START);
+            stateStore.update(fixtureId, new FixtureState(fixtureId, 0, homeTeamId, awayTeamId));
             return;
         }
-
 
         List<FixtureEventsResponse> events = fixtureClient.getFixtureEvents(fixtureId, authHeader);
         int lastKnownElapsed = previousState.getLastElapsed();
@@ -68,19 +71,24 @@ public class FixturePollingScheduler {
                 .forEach(e -> {
                     NotificationEvent notificationEvent = mapToNotificationEvent(e.getType());
                     if (notificationEvent != null) {
-                        notifyEvent(fixtureId, notificationEvent);
+                        notifyEvent(fixtureId, homeTeamId, awayTeamId, notificationEvent);
                     }
                 });
 
-        stateStore.update(fixtureId, new FixtureState(fixtureId, fixture.getElapsed()));
+        stateStore.update(fixtureId, new FixtureState(fixtureId, fixture.getElapsed(), homeTeamId, awayTeamId));
     }
 
-    private void notifyEvent(Integer fixtureId, NotificationEvent event) {
-        List<Subscription> subscriptions = repository
+    private void notifyEvent(Integer fixtureId, Integer homeTeamId, Integer awayTeamId, NotificationEvent event) {
+        List<Subscription> fixtureSubscriptions = repository
                 .findByFixtureIdAndStatusAndEventsContaining(
                         fixtureId, SubscriptionStatus.ACTIVE, event);
 
-        subscriptions.forEach(subscription -> {webhookService.send(subscription, event);});
+        List<Subscription> teamSubscriptions = repository
+                .findByTeamIdInAndStatusAndEventsContaining(
+                        List.of(homeTeamId, awayTeamId), SubscriptionStatus.ACTIVE, event);
+
+        Stream.concat(fixtureSubscriptions.stream(), teamSubscriptions.stream())
+                .forEach(sub -> webhookService.send(sub, event));
     }
 
     private NotificationEvent mapToNotificationEvent(String type) {
