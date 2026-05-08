@@ -10,10 +10,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface NotificationsRepository extends JpaRepository<Subscription, Long> {
+
+    Optional<Subscription> findById(UUID id);
+
     boolean existsByUserIdAndTeamIdAndChannelAndStatus(
             UUID userId, Integer teamId, NotificationChannel channel, SubscriptionStatus status);
 
@@ -22,4 +26,6 @@ public interface NotificationsRepository extends JpaRepository<Subscription, Lon
 
     List<Subscription> findByFixtureIdAndStatusAndEventsContaining(
             Integer fixtureId, SubscriptionStatus status, NotificationEvent event);
+
+    List<Subscription> findByUserIdAndStatus(UUID userId, SubscriptionStatus status);
 }

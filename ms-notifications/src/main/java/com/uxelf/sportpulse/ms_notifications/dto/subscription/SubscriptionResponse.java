@@ -1,4 +1,4 @@
-package com.uxelf.sportpulse.ms_notifications.dto;
+package com.uxelf.sportpulse.ms_notifications.dto.subscription;
 
 import com.uxelf.sportpulse.ms_notifications.enums.NotificationChannel;
 import com.uxelf.sportpulse.ms_notifications.enums.NotificationEvent;
