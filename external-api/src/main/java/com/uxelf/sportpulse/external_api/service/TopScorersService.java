@@ -1,9 +1,11 @@
 package com.uxelf.sportpulse.external_api.service;
 
 import com.uxelf.sportpulse.external_api.dto.RapidApiTopScorersResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TopScorersService {
 
     public RapidApiTopScorersResponse getTopScorers() {
