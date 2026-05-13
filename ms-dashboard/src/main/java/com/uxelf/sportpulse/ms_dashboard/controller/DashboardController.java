@@ -1,5 +1,6 @@
 package com.uxelf.sportpulse.ms_dashboard.controller;
 
+import com.uxelf.sportpulse.ms_dashboard.annotation.GetDashboardApiResponses;
 import com.uxelf.sportpulse.ms_dashboard.dto.DashboardResponse;
 import com.uxelf.sportpulse.ms_dashboard.service.DashboardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +22,7 @@ public class DashboardController {
 
     @GetMapping
     @Operation(summary = "Get dashboard", description = "Returns a summary for a league including today's matches, top 3 standings and top 3 scorers.", security = @SecurityRequirement(name = "Bearer Auth"))
+    @GetDashboardApiResponses
     public ResponseEntity<DashboardResponse> getDashboard(
             HttpServletRequest request,
             @RequestParam Integer league,
