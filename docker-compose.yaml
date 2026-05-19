@@ -120,9 +120,11 @@ services:
       - ms-leagues
     environment:
       JWT_SECRET: sportpulse-secret-key-2025-Secret
+      AUTH_SERVICE_URL: http://ms-auth:8081
       FIXTURES_SERVICE_URL: http://ms-fixtures:8085
       STANDINGS_SERVICE_URL: http://ms-standings:8086
       LEAGUES_SERVICE_URL: http://ms-leagues:8082
+      EXTERNAL_API_URL: http://external-api:8090
 
   external-api:
     build: ./external-api

@@ -1,13 +1,7 @@
 package com.uxelf.sportpulse.external_api.controller;
 
-import com.uxelf.sportpulse.external_api.dto.RapidApiFixtureResponse;
-import com.uxelf.sportpulse.external_api.dto.RapidApiLeagueResponse;
-import com.uxelf.sportpulse.external_api.dto.RapidApiStandingsResponse;
-import com.uxelf.sportpulse.external_api.dto.RapidApiTeamResponse;
-import com.uxelf.sportpulse.external_api.service.FixtureService;
-import com.uxelf.sportpulse.external_api.service.LeagueService;
-import com.uxelf.sportpulse.external_api.service.StandingsService;
-import com.uxelf.sportpulse.external_api.service.TeamService;
+import com.uxelf.sportpulse.external_api.dto.*;
+import com.uxelf.sportpulse.external_api.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +16,7 @@ public class InfoController {
     TeamService teamService;
     FixtureService fixtureService;
     StandingsService standingsService;
+    TopScorersService topScorersService;
 
     @GetMapping("/leagues")
     ResponseEntity<RapidApiLeagueResponse> getLeagues(){
@@ -41,5 +36,10 @@ public class InfoController {
     @GetMapping("/standings")
     ResponseEntity<RapidApiStandingsResponse> getStandings(){
         return ResponseEntity.ok(standingsService.getStandings());
+    }
+
+    @GetMapping("/players/topscorers")
+    public ResponseEntity<RapidApiTopScorersResponse> getTopScorers() {
+        return ResponseEntity.ok(topScorersService.getTopScorers());
     }
 }
